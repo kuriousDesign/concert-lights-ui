@@ -20,17 +20,17 @@ export default function GroupControls() {
     //const controlCfgs = await getControlCfgs();
     const sc = useContext(SocketContext); // Get fixture data from context
     // console.log("Render GroupControls");
-    const fixtureData = sc ? sc.fixtureData : null;
+    const groupData = sc ? sc.groupData : null;
     //const scene = sc ? sc.scene : null;
-    if (!fixtureData) {
+    if (!groupData) {
         return <div>Loading...</div>
     }
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-8">
-            {controlCfgs.map(controlCfg => (
-              <ControlCard key={controlCfg.id} control={controlCfg} fixtureData={fixtureData?.[1]} className="flex flex-col justify-between"/>
-            ))}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-8">
+        {controlCfgs.map((controlCfg, i) => (
+          <ControlCard key={controlCfg.id} control={controlCfg} fixtureData={groupData[i]} className="flex flex-col justify-between"/>
+        ))}
+      </div>
   )
 }
 

@@ -1,5 +1,3 @@
-'use client'
-
 import { Slider } from "@/components/ui/slider"
 import { 
     Card, 
@@ -14,10 +12,10 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
-import { signal } from '@preact/signals-react'
 
-import {useState} from 'react'
+import {useEffect, useState, useContext} from 'react'
 import { FixtureRGBW } from "@/interfaces/fixture"
+import { SocketContext } from '@/contexts/SocketProvider'; // Adjust path to match your project structure
 
 
 export interface ControlCfg {
@@ -31,23 +29,27 @@ export interface ControlCfg {
     stale: boolean
 }
 
-const sliderIsActive = signal(false);
-
 let intervalId: NodeJS.Timeout;
 
+//let sliderIsActive = false;
 
 export default function ControlCard({ className, control, fixtureData }: { className?: string, control: ControlCfg, fixtureData: FixtureRGBW }) {
     const displayId = control.id  + 1;
     let letter = 'F';
+    let controlType = 'fixtureSet';
     if (control.type = 'group') {
         letter = 'G';
+        controlType = 'groupSet';
     }
+    const { sendEvent } = useContext(SocketContext);
+    
     // console.log("render control card", control.id);
     const backendBrightness = fixtureData?.brightness || 0;
 
     //let defaultBrightness = 50;
     const [sliderValue, setSliderValue] = useState([50]);
-    if (sliderIsActive.value) {
+    const [sliderIsActive, setSliderIsActive] = useState(false);
+    if (sliderIsActive) {
         //displayBrightness.value = sliderBrightness.value;
 
     } else
@@ -60,18 +62,33 @@ export default function ControlCard({ className, control, fixtureData }: { class
 
     const updateSliderBrightness = (value: number[]) => {
         setSliderValue(value);
-        console.log("updateSliderBrightness", value[0]);
-        //stopBackendUpdate();
+        //console.log("updateSliderBrightness", value[0]);
+        fixtureData.brightness = value[0];
+        sendEvent('buttonPress', { controlType, id:control.id, color: fixtureData });
         clearInterval(intervalId);
-        sliderIsActive.value = true;
+        //sliderIsActive = true;
+        setSliderIsActive(true);
         intervalId = setInterval(() => {
             //setSliderValue([backendBrightness]);
-            sliderIsActive.value = false;
+            //sliderIsActive.value = false;
+            //sliderIsActive = false;
+            setSliderIsActive(false);
             clearInterval(intervalId);
             console.log('slider is no longer active, using backend value');
             //startBackendUpdate();
-        }, 2000);
+        }, 3000);
     }
+
+    useEffect(() => {
+        clearInterval(intervalId);
+        //setSliderValue([backendBrightness]);
+        //setSliderIsActive(false);
+        //console.log('useEffect cleanup');
+        return () => {
+            clearInterval(intervalId);
+            //console.log('useEffect cleanup');
+        }
+    }, []);
 
 
     return (
@@ -90,7 +107,7 @@ export default function ControlCard({ className, control, fixtureData }: { class
             </CardHeader>
             <CardContent>
                 <p>{backendBrightness}</p>
-                <Slider defaultValue={sliderValue} value={sliderValue} max={100} step={1} onValueChange={updateSliderBrightness} />
+                <Slider defaultValue={sliderValue} value={sliderValue} max={100} step={.01} onValueChange={updateSliderBrightness} />
 
             </CardContent>
             <CardFooter className="flex justify-between">

@@ -7,28 +7,35 @@ import { FixtureRGBW } from '@interfaces/fixture';
 export const SocketContext = createContext<{
   socket: Socket | null;
   fixtureData: FixtureRGBW[] | null;
+  groupData: FixtureRGBW[] | null;
   scene: string | null;
   setFixtureData: React.Dispatch<React.SetStateAction<FixtureRGBW[] | null>>;
+  setGroupData: React.Dispatch<React.SetStateAction<FixtureRGBW[] | null>>;
   sendEvent: (event: string, data: unknown) => void;
 }>({
   socket: null,
   fixtureData: null,
+  groupData: null,
   scene: null,
   setFixtureData: () => {},
+  setGroupData: () => {},
   sendEvent: () => {},
 });
 
 // List of possible Socket.IO server addresses
 const SERVER_URLS = [
+  'http://192.168.0.73:5000', // Another local IP
   'http://robot.local:5000', //
   'http://192.168.20.123:5000', // Conor Byrne Coop Private
   'http://127.0.0.1:5000', // Localhost
   'http://192.168.0.149:5000', // Another local IP
+  
 ];
 
 export default function SocketProvider({ children }: { children: React.ReactNode }) {
   const socketRef = useRef<Socket | null>(null);
   const [fixtureData, setFixtureData] = useState<FixtureRGBW[] | null>(null);
+  const [groupData, setGroupData] = useState<FixtureRGBW[] | null>(null);
   const [scene, setScene] = useState<string | null>(null);
   const serverIndex = useRef(0);
   const isConnected = useRef(false);
@@ -47,7 +54,7 @@ export default function SocketProvider({ children }: { children: React.ReactNode
       socketRef.current = io(serverUrl, { 
         transports: ['websocket'], 
         reconnection: false, 
-        timeout: 500 // Set connection timeout to 500ms
+        timeout: 3000 // Set connection timeout to 500ms
       });
 
       socketRef.current.on('connect', () => {
@@ -67,11 +74,15 @@ export default function SocketProvider({ children }: { children: React.ReactNode
       socketRef.current.on('disconnect', (reason) => {
         console.log(`Disconnected: ${reason}`);
         isConnected.current = false; // Mark as disconnected and retry
-        setTimeout(tryNextServer, 50); // Retry quickly after disconnect
+        setTimeout(tryNextServer, 500); // Retry quickly after disconnect
       });
 
       socketRef.current.on('data', (data) => {
         setFixtureData(data.message);
+      });
+
+      socketRef.current.on('groupData', (data) => {
+        setGroupData(data.message);
       });
 
       socketRef.current.on('event', (data) => {
@@ -97,7 +108,7 @@ export default function SocketProvider({ children }: { children: React.ReactNode
   };
 
   return (
-    <SocketContext.Provider value={{ socket: socketRef.current, fixtureData, scene, setFixtureData, sendEvent }}>
+    <SocketContext.Provider value={{ socket: socketRef.current, fixtureData, groupData, scene, setFixtureData, setGroupData, sendEvent }}>
       {children}
     </SocketContext.Provider>
   );
