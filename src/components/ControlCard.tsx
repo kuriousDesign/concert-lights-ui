@@ -106,7 +106,17 @@ export default function ControlCard({ className, control, fixtureData }: { class
                 </div>
             </CardHeader>
             <CardContent>
-                <p>{backendBrightness}</p>
+                <div className='flex flex-row justify-between mb-2'>
+                    <div>Brightness</div>
+                    <div>{backendBrightness}</div>
+                </div>
+                
+                <Slider defaultValue={sliderValue} value={sliderValue} max={100} step={.01} onValueChange={updateSliderBrightness} />
+                
+                <div className='flex flex-row justify-between mt-4 mb-2'>
+                    <div>Hue</div>
+                    <div>{backendBrightness}</div>
+                </div>
                 <Slider defaultValue={sliderValue} value={sliderValue} max={100} step={.01} onValueChange={updateSliderBrightness} />
 
             </CardContent>
