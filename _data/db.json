@@ -7,7 +7,7 @@
         "image": "group_control.jpg",
         "type": "group",
         "numChannels": 4,
-        "description": "illuminate backs of artists.",
+        "description": "illuminate backs of artists",
         "stale": false
       },
       {
@@ -27,7 +27,7 @@
         "image": "group_control.jpg",
         "type": "group",
         "numChannels": 4,
-        "description": "illuminate backs of artists.",
+        "description": "front facing lights",
         "stale": false
       },
       {
@@ -37,7 +37,7 @@
         "image": "group_control.jpg",
         "type": "group",
         "numChannels": 4,
-        "description": "illuminate curtains",
+        "description": "front facing lights",
         "stale": true
       }
     ]

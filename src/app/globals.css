@@ -189,9 +189,6 @@
 
 
 
-main, nav {
-  @apply max-w-6xl mx-auto;
-}
 p {
   @apply mt-2;
 }
@@ -201,3 +198,4 @@ h1 {
 h2 {
   @apply scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0;
 }
+
