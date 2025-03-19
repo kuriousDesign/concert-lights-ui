@@ -9,7 +9,7 @@ import {
   } from '@/components/ui/card'
 
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
 
@@ -21,16 +21,6 @@ import Wheel from "@uiw/react-color-wheel";
 import { ColorResult, rgbaToHsva } from '@uiw/color-convert';
 import { ControlCardDrawer } from "./ControlCardDrawer"
 
-export interface ControlCfg {
-    title: string,
-    image: string,
-    type: string,
-    fixtures: number[],
-    numChannels: number,
-    description: string,
-    id: number
-    stale: boolean
-}
 
 let intervalId: NodeJS.Timeout;
 

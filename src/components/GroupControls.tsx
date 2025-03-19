@@ -3,19 +3,10 @@
 import React from 'react'
 import { useContext } from "react"; // ✅ Import useContext
 import ControlCard from '@/components/ControlCard'
-import { ControlCfg } from '@/components/ControlCard'
+import { ControlCfg } from '@/interfaces/controls'
 
 import { SocketContext } from '@/contexts/SocketProvider'; // Adjust path to match your project structure
 import SkeletonCard from './SkeletonCard';
-
-// async function getControlCfgs(): Promise<ControlCfg[]> {
-//     const result = await fetch('http://localhost:7000/groupControls')
-//     // await new Promise((resolve) => setTimeout(resolve, 1000)) // delay response
-//     return result.json()
-//   }
-
-
-
 
 export default function GroupControls({controlCfgs} : {controlCfgs: ControlCfg[]}) {
     //const controlCfgs = await getControlCfgs();

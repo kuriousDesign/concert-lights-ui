@@ -18,7 +18,6 @@ export interface FixtureControlProps {
     cfg: FixtureCfg;
 }
 
-  
 export interface FixtureCfg {
     // address: number;
     // num_channels: number;
