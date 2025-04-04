@@ -17,7 +17,8 @@ import {
 } from "@/components/ui/drawer"
 
 import GroupControls from "./GroupControls"
-import { ControlCfg } from "./ControlCard"
+import { ControlCfg } from "@/interfaces"
+
 
 
 export function ControlCardDrawer({control} : {control: ControlCfg}) {
@@ -99,7 +100,7 @@ const controlCfgsG1 : ControlCfg[] =
 const controlCfgsG2 : ControlCfg[] = 
 [
   {
-    "id": 0,
+    "id": 4,
     "title": "Left Curtain",
     "fixtures": [4],
     "image": "fixture_control.jpg",
@@ -109,7 +110,7 @@ const controlCfgsG2 : ControlCfg[] =
     "stale": false
   },
   {
-    "id": 1,
+    "id": 5,
     "title": "Right Curtain",
     "fixtures": [5],
     "image": "fixture_control.jpg",
@@ -123,7 +124,7 @@ const controlCfgsG2 : ControlCfg[] =
 const controlCfgsG3 : ControlCfg[] = 
 [
   {
-    "id": 0,
+    "id": 6,
     "title": "Front 1",
     "fixtures": [6],
     "image": "fixture_control.jpg",
@@ -133,7 +134,7 @@ const controlCfgsG3 : ControlCfg[] =
     "stale": false
   },
   {
-    "id": 1,
+    "id": 8,
     "title": "Front 3",
     "fixtures": [8],
     "image": "fixture_control.jpg",
@@ -143,7 +144,7 @@ const controlCfgsG3 : ControlCfg[] =
     "stale": false
   },
   {
-    "id": 2,
+    "id": 10,
     "title": "Front 5",
     "fixtures": [10],
     "image": "fixture_control.jpg",
@@ -157,7 +158,7 @@ const controlCfgsG3 : ControlCfg[] =
 const controlCfgsG4 : ControlCfg[] = 
 [
   {
-    "id": 0,
+    "id": 7,
     "title": "Front 2",
     "fixtures": [7],
     "image": "fixture_control.jpg",
@@ -167,7 +168,7 @@ const controlCfgsG4 : ControlCfg[] =
     "stale": false
   },
   {
-    "id": 1,
+    "id": 9,
     "title": "Front 4",
     "fixtures": [9],
     "image": "fixture_control.jpg",

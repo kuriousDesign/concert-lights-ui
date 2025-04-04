@@ -20,6 +20,7 @@ import Wheel from "@uiw/react-color-wheel";
 //import ShadeSlider from '@uiw/react-color-shade-slider';
 import { ColorResult, rgbaToHsva } from '@uiw/color-convert';
 import { ControlCardDrawer } from "./ControlCardDrawer"
+import { ControlCfg } from "@/interfaces"
 
 
 let intervalId: NodeJS.Timeout;
@@ -29,11 +30,12 @@ let intervalId: NodeJS.Timeout;
 export default function ControlCard({ className, control, fixtureData }: { className?: string, control: ControlCfg, fixtureData: FixtureRGBW }) {
     const displayId = control.id  + 1;
     let letter = 'F';
-    let controlType = 'fixtureSet';
-    if (control.type = 'group') {
+    //let controlType = 'fixtureSet';
+    if (control.type === 'group') {
         letter = 'G';
-        controlType = 'groupSet';
+        //controlType = 'groupSet';
     }
+
     const { sendEvent } = useContext(SocketContext);
     
     const backendBrightness = fixtureData?.brightness || 0;
@@ -66,7 +68,7 @@ export default function ControlCard({ className, control, fixtureData }: { class
         displayFixtureData.r = color.rgb.r;
         displayFixtureData.g = color.rgb.g;
         displayFixtureData.b = color.rgb.b;
-        sendEvent('buttonPress', { controlType, id:control.id, color: displayFixtureData });
+        sendEvent('buttonPress', { controlType: control.type, id:control.id, color: displayFixtureData });
         console.log('color.r', color.rgb.r);
         handleAnyChange();
     };
@@ -100,7 +102,7 @@ export default function ControlCard({ className, control, fixtureData }: { class
         //setSliderValue(value);
         setDisplayFixtureData({ ...displayFixtureData, brightness: Math.round(value[0]) });
         displayFixtureData.brightness = value[0];
-        sendEvent('buttonPress', { controlType, id:control.id, color: displayFixtureData });
+        sendEvent('buttonPress', { controlType:control.type, id:control.id, color: displayFixtureData });
         handleAnyChange();
     }
 
