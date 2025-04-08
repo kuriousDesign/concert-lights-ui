@@ -40,7 +40,7 @@ export default function RootLayout({
             <div className="absolute top-0 left-0 w-full z-100 backdrop-blur-md bg-white/5 text-white p-2 ">
               <h1 className="text-center">Conor Byrne</h1>
             </div>
-            <div className="px-3 pt-4">{children}</div>
+            <div className="px-3 pt-10">{children}</div>
           </nav>
         </SocketProvider>
       </body>
