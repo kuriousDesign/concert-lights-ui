@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SocketProvider from "@contexts/SocketProvider";
+import NavBar from "@/components/NavBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,16 +31,7 @@ export default function RootLayout({
       >
         <SocketProvider> {/* Wrap your app with the provider */}
           <nav>
-            <div className="sticky top-0 left-0 z-80 p-2">
-              <div className="h-6 flex gap-2 justify-around">
-                <div className="h-full aspect-square rounded-full bg-red-500"></div>
-                <div className="h-full aspect-square rounded-full bg-yellow-500"></div>
-                <div className="h-full aspect-square rounded-full bg-green-500"></div>
-              </div>
-            </div>
-            <div className="absolute top-0 left-0 w-full z-100 backdrop-blur-md bg-white/5 text-white p-2 ">
-              <h1 className="text-center">Conor Byrne</h1>
-            </div>
+            <NavBar />
             <div className="px-3 pt-10">{children}</div>
           </nav>
         </SocketProvider>

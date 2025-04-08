@@ -7,6 +7,8 @@ import { FixtureRGBW } from '@interfaces/fixture';
 export const SocketContext = createContext<{
   socket: Socket | null;
   fixtureData: FixtureRGBW[] | null;
+  rawFixtureDataRgb: FixtureRGBW[] | null;
+  setRawFixtureDataRgb: React.Dispatch<React.SetStateAction<FixtureRGBW[] | null>>;
   groupData: FixtureRGBW[] | null;
   scene: string | null;
   setFixtureData: React.Dispatch<React.SetStateAction<FixtureRGBW[] | null>>;
@@ -15,9 +17,11 @@ export const SocketContext = createContext<{
 }>({
   socket: null,
   fixtureData: null,
+  rawFixtureDataRgb: null,
   groupData: null,
   scene: null,
   setFixtureData: () => {},
+  setRawFixtureDataRgb: () => {},
   setGroupData: () => {},
   sendEvent: () => {},
 });
@@ -35,6 +39,7 @@ const SERVER_URLS = [
 export default function SocketProvider({ children }: { children: React.ReactNode }) {
   const socketRef = useRef<Socket | null>(null);
   const [fixtureData, setFixtureData] = useState<FixtureRGBW[] | null>(null);
+  const [rawFixtureDataRgb, setRawFixtureDataRgb] = useState<FixtureRGBW[] | null>(null);
   const [groupData, setGroupData] = useState<FixtureRGBW[] | null>(null);
   const [scene, setScene] = useState<string | null>(null);
   const serverIndex = useRef(0);
@@ -77,6 +82,11 @@ export default function SocketProvider({ children }: { children: React.ReactNode
         setTimeout(tryNextServer, 100); // Retry quickly after disconnect
       });
 
+      socketRef.current.on('rawFixtureDataRgb', (data) => {
+        setRawFixtureDataRgb(data.message);
+        //console.log('Received raw fixture data:', data.message);
+      });
+
       socketRef.current.on('fixtureData', (data) => {
         setFixtureData(data.message);
         //console.log('Received fixture data:', data.message);
@@ -109,7 +119,7 @@ export default function SocketProvider({ children }: { children: React.ReactNode
   };
 
   return (
-    <SocketContext.Provider value={{ socket: socketRef.current, fixtureData, groupData, scene, setFixtureData, setGroupData, sendEvent }}>
+    <SocketContext.Provider value={{ socket: socketRef.current, fixtureData, rawFixtureDataRgb, groupData, scene, setFixtureData, setGroupData, sendEvent, setRawFixtureDataRgb }}>
       {children}
     </SocketContext.Provider>
   );
