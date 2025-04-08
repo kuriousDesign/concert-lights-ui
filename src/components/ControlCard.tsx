@@ -31,9 +31,10 @@ export default function ControlCard({ className, control, fixtureData }: { class
     const displayId = control.id  + 1;
     let letter = 'F';
     //let controlType = 'fixtureSet';
-    if (control.type === 'group') {
+    if (control.type === 'group' && control.id === 0 && fixtureData) {
         letter = 'G';
         //controlType = 'groupSet';
+        //console.log(fixtureData.controlIsActive);
     }
 
     const { sendEvent } = useContext(SocketContext);
@@ -175,13 +176,13 @@ export default function ControlCard({ className, control, fixtureData }: { class
                     <div>{backendBrightness}</div>
                 </div>
                 
-                <Slider className='mb-4 z-100' defaultValue={[displayFixtureData.brightness]} value={[displayFixtureData.brightness]} max={100} step={.5} onValueChange={updateSliderBrightness} width="10px" />
+                <Slider className='mb-4 z-100' defaultValue={[displayFixtureData.brightness]} value={[displayFixtureData.brightness]} max={100} step={1} onValueChange={updateSliderBrightness} width="10px" />
                 {rgbDisplayDiv()}
 
             </CardContent>
             <CardFooter className="flex justify-between">
                 {control.type === 'group' && <ControlCardDrawer control={control} />}
-                {control.stale && <Badge variant="secondary">Stale!</Badge>}
+                {!fixtureData.controlIsActive && <Badge variant="secondary">Stale!</Badge>}
             </CardFooter>
         </Card>
     )

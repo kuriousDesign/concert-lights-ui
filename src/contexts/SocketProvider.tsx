@@ -54,7 +54,7 @@ export default function SocketProvider({ children }: { children: React.ReactNode
       socketRef.current = io(serverUrl, { 
         transports: ['websocket'], 
         reconnection: false, 
-        timeout: 3000 // Set connection timeout to 500ms
+        timeout: 50 // Set connection timeout to 500ms
       });
 
       socketRef.current.on('connect', () => {
@@ -74,11 +74,12 @@ export default function SocketProvider({ children }: { children: React.ReactNode
       socketRef.current.on('disconnect', (reason) => {
         console.log(`Disconnected: ${reason}`);
         isConnected.current = false; // Mark as disconnected and retry
-        setTimeout(tryNextServer, 500); // Retry quickly after disconnect
+        setTimeout(tryNextServer, 100); // Retry quickly after disconnect
       });
 
-      socketRef.current.on('data', (data) => {
+      socketRef.current.on('fixtureData', (data) => {
         setFixtureData(data.message);
+        //console.log('Received fixture data:', data.message);
       });
 
       socketRef.current.on('groupData', (data) => {

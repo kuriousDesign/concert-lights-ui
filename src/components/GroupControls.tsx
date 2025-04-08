@@ -9,21 +9,31 @@ import { SocketContext } from '@/contexts/SocketProvider'; // Adjust path to mat
 import SkeletonCard from './SkeletonCard';
 
 export default function GroupControls({controlCfgs} : {controlCfgs: ControlCfg[]}) {
-    //const controlCfgs = await getControlCfgs();
-    const sc = useContext(SocketContext); // Get fixture data from context
-    // console.log("Render GroupControls");
-    const groupData = sc ? sc.groupData : null;
 
-        //const scene = sc ? sc.scene : null;
-    if (!groupData) {
-        return controlCfgs.map((controlCfg, i) => (
+    const sc = useContext(SocketContext); // Get fixture data from context
+    const controlType = controlCfgs ? controlCfgs[0].type : null;
+    
+    const groupData = sc ? sc.groupData : null;
+    const individualData = sc ? sc.fixtureData : null;
+
+    //const scene = sc ? sc.scene : null;
+    if (!groupData || !individualData) {
+        return controlCfgs.map((controlCfg) => (
           <SkeletonCard key={controlCfg.id} />
       ))
     }
 
+    const getFixtureData = (controlCfg: ControlCfg) => {
+        if (controlType?.startsWith('group')) {
+            return groupData[controlCfg.id];
+        } else {
+            return individualData[controlCfg.id];
+        }
+    }
+
     const cards = () => {
-        return controlCfgs.map((controlCfg, i) => (
-            <ControlCard key={controlCfg.id} control={controlCfg} fixtureData={groupData[i]} className="flex flex-col justify-between"/>
+        return controlCfgs.map((controlCfg) => (
+            <ControlCard key={controlCfg.id} control={controlCfg} fixtureData={getFixtureData(controlCfg)} className="flex flex-col justify-between"/>
         ))
     }
 

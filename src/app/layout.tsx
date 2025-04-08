@@ -30,7 +30,14 @@ export default function RootLayout({
       >
         <SocketProvider> {/* Wrap your app with the provider */}
           <nav>
-            <div className="sticky top-0 left-0 z-100 backdrop-blur-md bg-purple-400/20 text-white p-2 ">
+            <div className="sticky top-0 left-0 z-80 p-2">
+              <div className="h-6 flex gap-2 justify-around">
+                <div className="h-full aspect-square rounded-full bg-red-500"></div>
+                <div className="h-full aspect-square rounded-full bg-yellow-500"></div>
+                <div className="h-full aspect-square rounded-full bg-green-500"></div>
+              </div>
+            </div>
+            <div className="absolute top-0 left-0 w-full z-100 backdrop-blur-md bg-white/5 text-white p-2 ">
               <h1 className="text-center">Conor Byrne</h1>
             </div>
             <div className="px-3 pt-4">{children}</div>

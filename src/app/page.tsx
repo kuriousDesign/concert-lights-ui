@@ -1,5 +1,6 @@
-import { ControlCfg } from '@/components/ControlCard';
+
 import GroupControls from '@/components/GroupControls';
+import { ControlCfg } from '@/interfaces';
 
 
 
